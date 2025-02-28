@@ -1,9 +1,5 @@
 name: Integration Tests
 on: workflow_dispatch
 jobs:
-  Maven_Plugin:
-    uses: ./.github/workflows/integration-test-mvn.yml
-  Gradle_Plugin:
-    uses: ./.github/workflows/integration-test-gradle.yml
-  Mod_CLI_JAR:
-    uses: ./.github/workflows/integration-test-modcli-jar.yml
+  OpenSource:
+    uses: ./.github/workflows/oss/oss_integration-tests.yml

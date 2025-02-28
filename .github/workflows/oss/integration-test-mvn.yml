@@ -1,7 +1,14 @@
 name: Maven Plugin IT
-on: workflow_call
+on:
+  workflow_call
 jobs:
-  run-java-commands:
+  mvn_matrix:
+    strategy:
+      matrix:
+        plugin_version: [ 'LATEST', 'RELEASE' ]
+        recipe_version: [ 'LATEST', 'RELEASE' ]
+  run-test:
+    name: Maven Plugin (${{ matrix.plugin_version }} / ${{ matrix.recipe_version }})
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -17,7 +24,7 @@ jobs:
           ref: '2.1.x'
       - name: Update Spring Boot with OpenRewrite latest versions
         run: |
-          ./mvnw -U org.openrewrite.maven:rewrite-maven-plugin:LATEST:dryRun \
-            -Drewrite.recipeArtifactCoordinates=org.openrewrite.recipe:rewrite-spring:LATEST \
+          ./mvnw -U org.openrewrite.maven:rewrite-maven-plugin:${{ matrix.plugin_version }}:dryRun \
+            -Drewrite.recipeArtifactCoordinates=org.openrewrite.recipe:rewrite-spring:${{ matrix.recipe_version }} \
             -Drewrite.activeRecipes=org.openrewrite.java.spring.boot3.UpgradeSpringBoot_3_3 \
             -Drewrite.exportDatatables=false

@@ -1,7 +1,13 @@
 name: Mod CLI JAR IT
-on: workflow_call
+on:
+  workflow_call
 jobs:
-  run-java-commands:
+  gradle_matrix:
+    strategy:
+      matrix:
+        cli_version: [ 'staging', 'stable' ]
+        recipe_version: [ 'LATEST', 'RELEASE' ]
+  run-test:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -36,7 +42,7 @@ jobs:
           mkdir modcli
           curl --request GET \
             --output ./modcli/mod.tar.gz \
-            --url 'https://api.app.moderne.io/cli/download?operatingSystem=linux-tar&environment=staging' \
+            --url 'https://api.app.moderne.io/cli/download?operatingSystem=linux-tar&environment=${{ matrix.cli_version }}' \
             --header 'Authorization: Bearer ${{secrets.MODERNE_SAAS_ACCESS_TOKEN}}'
       - name: Setup ModCLI
         uses: ihiroky/extract-action@v1
@@ -46,7 +52,7 @@ jobs:
       - name: Activate ModCLI
         run: modcli/mod config moderne edit https://app.moderne.io --token ${{secrets.MODERNE_SAAS_ACCESS_TOKEN}}
       - name: Load Recipes
-        run: modcli/mod config recipes jar install io.moderne.recipe:rewrite-spring:LATEST
+        run: modcli/mod config recipes jar install io.moderne.recipe:rewrite-spring:${{ matrix.recipe_version }}
       - name: Build LST
         run: modcli/mod build ../spring-petclinic-migration
       - name: Update Spring Boot with OpenRewrite latest versions

@@ -1,0 +1,12 @@
+name: OS Integration Tests
+on: workflow_call
+jobs:
+  OS_Maven_Plugin:
+    name: Maven Integration
+    uses: ./.github/workflows/oss/integration-test-mvn.yml
+  OS_Gradle_Plugin:
+    name: Gradle Integration
+    uses: ./.github/workflows/oss/integration-test-gradle.yml
+  OS_Mod_CLI_JAR:
+    name: Mod CLI JAR Integration
+    uses: ./.github/workflows/oss/integration-test-modcli-jar.yml
