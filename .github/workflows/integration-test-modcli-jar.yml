@@ -8,6 +8,7 @@ jobs:
       matrix:
         cli_version: [ 'staging', 'stable' ]
         recipe_version: [ 'LATEST', 'RELEASE' ]
+      max-parallel: 1
     steps:
       - name: Set up JDK 8
         uses: actions/setup-java@v2
@@ -41,7 +42,7 @@ jobs:
           curl --request GET \
             --output ./modcli/mod.tar.gz \
             --url 'https://api.app.moderne.io/cli/download?operatingSystem=linux-tar&environment=${{ matrix.cli_version }}' \
-            --header 'Authorization: Bearer ${{ secrets.MODERNE_SAAS_ACCESS_TOKEN }}'
+            --header 'Authorization: ${{ secrets.MODERNE_SAAS_ACCESS_TOKEN }}'
       - name: Setup ModCLI
         uses: ihiroky/extract-action@v1
         with:

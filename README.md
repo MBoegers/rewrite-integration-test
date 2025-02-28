@@ -16,7 +16,7 @@ Main goal is to cover the very unpleasant "did they even started this thing once
 
 ### OpenRewrite and OSS CLI
 
-All Testcases are run against the openrewrite/spring-petclinic-migration repository form the branch 2.1.x, which contains the Spring Boot PetClinic sample using Spring Boot 2.1.x.
+All Testcases are run against the [openrewrite/spring-petclinic-migration](https://github.com/openrewrite/spring-petclinic-migration) repository form the branch 2.1.x, which contains the Spring Boot PetClinic sample using Spring Boot 2.1.x.
 Each test is run with Maven and Gradle Plugin from Maven Central.
 
 **Testcase:**
