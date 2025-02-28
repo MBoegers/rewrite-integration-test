@@ -5,6 +5,21 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
+      - name: Set up JDK 8
+        uses: actions/setup-java@v2
+        with:
+          java-version: '8'
+          distribution: 'temurin'
+      - name: Set up JDK 11
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'
+          distribution: 'temurin'
       - name: Set up JDK 21
         uses: actions/setup-java@v2
         with:
@@ -29,7 +44,7 @@ jobs:
           file_path: ./modcli/mod.tar.gz
           extract_dir: ./modcli
       - name: Activate ModCLI
-        run: modcli/mod config moderne edit https://app.moderne.io --token ${{secrets.MODERNE_SAAS_ACCESS_TOKEN}}'
+        run: modcli/mod config moderne edit https://app.moderne.io --token ${{secrets.MODERNE_SAAS_ACCESS_TOKEN}}
       - name: Load Recipes
         run: modcli/mod config recipes jar install io.moderne.recipe:rewrite-spring:LATEST
       - name: Build LST
