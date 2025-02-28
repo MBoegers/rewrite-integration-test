@@ -1,4 +1,4 @@
-name: Mod CLI JAR IT
+name: ModCLIJARIT
 on: workflow_call
 jobs:
   run-java-commands:
