@@ -1,0 +1,23 @@
+name: Integration Test
+on: workflow_call
+jobs:
+  run-java-commands:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Set up JDK 21
+        uses: actions/setup-java@v2
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+      - name: Clone Spring Pet Clinic Repository
+        uses: actions/checkout@v2
+        with:
+          repository: 'openrewrite/spring-petclinic-migration'
+          ref: '2.1.x'
+      - name: Update Spring Boot with OpenRewrite latest versions
+        run: |
+          ./mvnw -U org.openrewrite.maven:rewrite-maven-plugin:LATEST:dryRun \
+            -Drewrite.recipeArtifactCoordinates=org.openrewrite.recipe:rewrite-spring:LATEST \
+            -Drewrite.activeRecipes=org.openrewrite.java.spring.boot3.UpgradeSpringBoot_3_3 \
+            -Drewrite.exportDatatables=false

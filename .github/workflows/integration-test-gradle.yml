@@ -1,0 +1,53 @@
+name: Integration Test
+on:
+  workflow_call:
+    inputs:
+      init_gradle:
+        description: The Gradle init script to apply
+        type: string
+        required: false
+        default: |
+          initscript {
+            repositories {
+              maven { url 'https://plugins.gradle.org/m2' }
+            }
+            dependencies {
+              classpath('org.openrewrite:plugin:latest.integration')
+            }
+          }
+          rootProject {
+            plugins.apply(org.openrewrite.gradle.RewritePlugin)
+            dependencies {
+                rewrite('org.openrewrite.recipe:rewrite-rewrite:latest.integration')
+            }
+            afterEvaluate {
+              if (repositories.isEmpty()) {
+                repositories {
+                  mavenCentral()
+                }
+              }
+            }
+          }
+jobs:
+  run-java-commands:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Set up JDK 21
+        uses: actions/setup-java@v2
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+      - name: Clone Spring Pet Clinic Repository
+        uses: actions/checkout@v2
+        with:
+          repository: 'moderneinc/spring-petclinic'
+          ref: '2.0.0'
+
+      - name: Create temporary files
+        run: echo "${{ inputs.init_gradle }}" > rewrite-init.gradle
+      - name: Update Spring Boot with OpenRewrite latest versions
+        run: |
+          ./gradlew rewriteRun \
+            --init-script rewrite-init.gradle \
+            -Drewrite.activeRecipe=org.openrewrite.java.spring.boot3.UpgradeSpringBoot_3_3

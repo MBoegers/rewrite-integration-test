@@ -1,0 +1,39 @@
+name: Integration Test
+on: workflow_call
+jobs:
+  run-java-commands:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Set up JDK 21
+        uses: actions/setup-java@v2
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+      - name: Clone Spring Pet Clinic Repository
+        uses: actions/checkout@v2
+        with:
+          repository: 'openrewrite/spring-petclinic-migration'
+          ref: '2.1.x'
+          path: './spring-petclinic-migration'
+      - name: Download ModCLI Staging
+        run: |
+          curl --request GET \
+            --output mod.tar.gz \
+            --url 'https://api.app.moderne.io/cli/download?operatingSystem=linux-tar&environment=staging' \
+            --header 'Authorization: Bearer ${{secrets.MODERNE_SAAS_ACCESS_TOKEN}}'
+      - name: Setup ModCLI
+        uses: a7ul/tar-action@v1.1.0
+        id: extract
+        with:
+          command: x
+          cwd: ./modcli
+          files: mod.tar.gz
+      - name: Activate ModCLI
+        run: mod config moderne edit https://app.moderne.io --token ${{secrets.MODERNE_SAAS_ACCESS_TOKEN}}'
+      - name: Load Recipes
+        run: mod config recipes jar install io.moderne.recipe:rewrite-spring:LATEST
+      - name: Build LST
+        run: mod build ./spring-petclinic-migration
+      - name: Update Spring Boot with OpenRewrite latest versions
+        run: mod run ./spring-petclinic-migration --recipe io.moderne.java.spring.boot3.UpgradeSpringBoot_3_4
