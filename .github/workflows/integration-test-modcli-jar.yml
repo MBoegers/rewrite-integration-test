@@ -2,15 +2,14 @@ name: Mod CLI JAR IT
 on:
   workflow_call
 jobs:
-  gradle_matrix:
+  run-test:
+    name: Maven Plugin
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
     strategy:
       matrix:
         cli_version: [ 'staging', 'stable' ]
         recipe_version: [ 'LATEST', 'RELEASE' ]
-  run-test:
-    name: Maven Plugin ${{ matrix.plugin_version }} / ${{ matrix.recipe_version }}
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
     steps:
       - name: Set up JDK 8
         uses: actions/setup-java@v2

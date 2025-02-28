@@ -2,15 +2,14 @@ name: Gradle Plugin IT
 on:
   workflow_call
 jobs:
-  gradle_matrix:
-    strategy:
-      matrix:
-        plugin_version: [ 'latest.integration', 'latest.release' ]
-        recipe_version: [ 'latest.integration', 'latest.release' ]
   run-test:
     name: Maven Plugin ${{ matrix.plugin_version }} / ${{ matrix.recipe_version }}
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    strategy:
+      matrix:
+        plugin_version: [ 'latest.integration', 'latest.release' ]
+        recipe_version: [ 'latest.integration', 'latest.release' ]
     steps:
       - name: Set up JDK 11
         uses: actions/setup-java@v2
