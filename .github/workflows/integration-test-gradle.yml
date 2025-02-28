@@ -21,15 +21,15 @@ jobs:
           ref: '2.1.x'
       - name: Create temporary files
         run: |
-          echo "initscript {\
-            repositories { maven { url 'https://plugins.gradle.org/m2' } }\
-            dependencies { classpath('org.openrewrite:plugin:${{ matrix.plugin_version }}') }\
-          }\
+          echo "initscript {
+            repositories { maven { url 'https://plugins.gradle.org/m2' } }
+            dependencies { classpath('org.openrewrite:plugin:${{ matrix.plugin_version }}') }
+          }
           rootProject {
             plugins.apply(org.openrewrite.gradle.RewritePlugin)
-            dependencies { rewrite('org.openrewrite.recipe:rewrite-rewrite:${{ matrix.recipe_version }}') }\
-            afterEvaluate { if (repositories.isEmpty()) { repositories { mavenCentral() }} \
-            }\
+            dependencies { rewrite('org.openrewrite.recipe:rewrite-rewrite:${{ matrix.recipe_version }}') }
+            afterEvaluate { if (repositories.isEmpty()) { repositories { mavenCentral() }} 
+            }
           }" > rewrite-init.gradle
           cat rewrite-init.gradle
       - name: Update Spring Boot with OpenRewrite latest versions
