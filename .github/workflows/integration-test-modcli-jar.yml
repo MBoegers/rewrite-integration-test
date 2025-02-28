@@ -43,6 +43,7 @@ jobs:
             --output ./modcli/mod.tar.gz \
             --url 'https://api.app.moderne.io/cli/download?operatingSystem=linux-tar&environment=${{ matrix.cli_version }}' \
             --header 'Authorization: ${{ secrets.MODERNE_SAAS_ACCESS_TOKEN }}'
+          ls modcli
       - name: Setup ModCLI
         uses: ihiroky/extract-action@v1
         with:
