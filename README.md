@@ -49,4 +49,5 @@ All Testcases are run against an organization consisting of a Spring Boot Projec
 
 ### Future Plan 🔭
 
+- [ ] Asserting patch content minimalistic
 - [ ] Store a LST created with the last Release and check if current Stable/Staging can read/migrate this LST
