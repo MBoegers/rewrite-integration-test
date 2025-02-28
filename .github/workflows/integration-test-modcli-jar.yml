@@ -8,6 +8,7 @@ jobs:
         cli_version: [ 'staging', 'stable' ]
         recipe_version: [ 'LATEST', 'RELEASE' ]
   run-test:
+    name: Maven Plugin ${{ matrix.plugin_version }} / ${{ matrix.recipe_version }}
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
