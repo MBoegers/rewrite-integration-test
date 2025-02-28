@@ -41,9 +41,8 @@ jobs:
       - name: Clone Spring Pet Clinic Repository
         uses: actions/checkout@v2
         with:
-          repository: 'moderneinc/spring-petclinic'
-          ref: '2.0.0'
-
+          repository: 'openrewrite/spring-petclinic-migration'
+          ref: '2.1.x'
       - name: Create temporary files
         run: echo "${{ inputs.init_gradle }}" > rewrite-init.gradle
       - name: Update Spring Boot with OpenRewrite latest versions

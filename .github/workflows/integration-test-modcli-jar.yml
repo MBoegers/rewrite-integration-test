@@ -15,25 +15,24 @@ jobs:
         with:
           repository: 'openrewrite/spring-petclinic-migration'
           ref: '2.1.x'
-          path: './spring-petclinic-migration'
+          path: 'spring-petclinic-migration'
       - name: Download ModCLI Staging
         run: |
+          mkdir modcli
           curl --request GET \
-            --output mod.tar.gz \
+            --output ./modcli/mod.tar.gz \
             --url 'https://api.app.moderne.io/cli/download?operatingSystem=linux-tar&environment=staging' \
             --header 'Authorization: Bearer ${{secrets.MODERNE_SAAS_ACCESS_TOKEN}}'
       - name: Setup ModCLI
-        uses: a7ul/tar-action@v1.1.0
-        id: extract
+        uses: ihiroky/extract-action@v1
         with:
-          command: x
-          cwd: ./modcli
-          files: mod.tar.gz
+          file_path: ./modcli/mod.tar.gz
+          extract_dir: ./modcli
       - name: Activate ModCLI
-        run: mod config moderne edit https://app.moderne.io --token ${{secrets.MODERNE_SAAS_ACCESS_TOKEN}}'
+        run: modcli/mod config moderne edit https://app.moderne.io --token ${{secrets.MODERNE_SAAS_ACCESS_TOKEN}}'
       - name: Load Recipes
-        run: mod config recipes jar install io.moderne.recipe:rewrite-spring:LATEST
+        run: modcli/mod config recipes jar install io.moderne.recipe:rewrite-spring:LATEST
       - name: Build LST
-        run: mod build ./spring-petclinic-migration
+        run: modcli/mod build ../spring-petclinic-migration
       - name: Update Spring Boot with OpenRewrite latest versions
-        run: mod run ./spring-petclinic-migration --recipe io.moderne.java.spring.boot3.UpgradeSpringBoot_3_4
+        run: modcli/mod run ../spring-petclinic-migration --recipe io.moderne.java.spring.boot3.UpgradeSpringBoot_3_4
