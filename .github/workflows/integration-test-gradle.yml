@@ -27,7 +27,7 @@ jobs:
           }
           rootProject {
             plugins.apply(org.openrewrite.gradle.RewritePlugin)
-            dependencies { rewrite("org.openrewrite.recipe:rewrite-spring:${{ matrix.recipe_version }}") }
+            dependencies { rewrite('org.openrewrite.recipe:rewrite-spring:${{ matrix.recipe_version }}') }
             afterEvaluate { if (repositories.isEmpty()) { repositories { mavenCentral() }} 
             }
           }" > rewrite-init.gradle

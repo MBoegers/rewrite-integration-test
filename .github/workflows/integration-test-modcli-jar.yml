@@ -41,14 +41,14 @@ jobs:
           curl --request GET \
             --output ./modcli/mod.tar.gz \
             --url 'https://api.app.moderne.io/cli/download?operatingSystem=linux-tar&environment=${{ matrix.cli_version }}' \
-            --header 'Authorization: Bearer ${{secrets.MODERNE_SAAS_ACCESS_TOKEN}}'
+            --header 'Authorization: Bearer ${{ secrets.MODERNE_SAAS_ACCESS_TOKEN }}'
       - name: Setup ModCLI
         uses: ihiroky/extract-action@v1
         with:
           file_path: ./modcli/mod.tar.gz
           extract_dir: ./modcli
       - name: Activate ModCLI
-        run: modcli/mod config moderne edit https://app.moderne.io --token ${{secrets.MODERNE_SAAS_ACCESS_TOKEN}}
+        run: modcli/mod config moderne edit https://app.moderne.io --token ${{ secrets.MODERNE_SAAS_ACCESS_TOKEN }}
       - name: Load Recipes
         run: modcli/mod config recipes jar install io.moderne.recipe:rewrite-spring:${{ matrix.recipe_version }}
       - name: Build LST
