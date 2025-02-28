@@ -1,4 +1,4 @@
-name: GradlePluginIT
+name: Gradle Plugin IT
 on:
   workflow_call:
     inputs:

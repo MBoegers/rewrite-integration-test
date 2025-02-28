@@ -1,4 +1,4 @@
-name: MavenPluginIT
+name: Maven Plugin IT
 on: workflow_call
 jobs:
   run-java-commands:
