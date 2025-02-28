@@ -2,8 +2,8 @@ name: Integration Tests
 on: workflow_dispatch
 jobs:
   Gradle Plugin:
-    uses: MBoegers/rewrite-integration-test/.github/workflows/integration-test-mvn.yml@main
+    uses: ./integration-test-mvn.yml@main
   Maven Plugin:
-    uses: MBoegers/rewrite-integration-test/.github/workflows/integration-test-gradle.yml@main
+    uses: ./integration-test-gradle.yml@main
   Mod CLI JAR:
-    uses: MBoegers/rewrite-integration-test/.github/workflows/integration-test-modcli-jar.yml@main
+    uses: ./integration-test-modcli-jar.yml@main
