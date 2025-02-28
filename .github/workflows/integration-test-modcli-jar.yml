@@ -50,8 +50,8 @@ jobs:
       - name: Activate ModCLI
         run: modcli/mod config moderne edit https://app.moderne.io --token ${{ secrets.MODERNE_SAAS_ACCESS_TOKEN }}
       - name: Load Recipes
-        run: modcli/mod config recipes jar install io.moderne.recipe:rewrite-spring:${{ matrix.recipe_version }}
+        run: modcli/mod config recipes jar install org.openrewrite.recipe:rewrite-spring:${{ matrix.recipe_version }}
       - name: Build LST
-        run: modcli/mod build ../spring-petclinic-migration
+        run: modcli/mod build ./spring-petclinic-migration
       - name: Update Spring Boot with OpenRewrite latest versions
-        run: modcli/mod run ../spring-petclinic-migration --recipe io.moderne.java.spring.boot3.UpgradeSpringBoot_3_4
+        run: modcli/mod run ./spring-petclinic-migration --recipe org.openrewrite.java.spring.boot3.UpgradeSpringBoot_3_3

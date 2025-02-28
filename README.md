@@ -28,6 +28,7 @@ Each test is run with Maven and Gradle Plugin from Maven Central.
 | Latest Release                 | baseline       | same as baseline |
 | Latest Snapshot                | no failure     | no failure       |
 
+See actions for martix jobs for above combinations of [Gradle](.github/workflows/integration-test-gradle.yml), [Maven](.github/workflows/integration-test-maven.yml) and [Mod CLI JAR](.github/workflows/integration-test-maven.yml) 
 
 ### Moderne closed CLI
 
