@@ -27,13 +27,14 @@ jobs:
           }
           rootProject {
             plugins.apply(org.openrewrite.gradle.RewritePlugin)
-            dependencies { rewrite('org.openrewrite.recipe:rewrite-rewrite:${{ matrix.recipe_version }}') }
+            dependencies { rewrite("org.openrewrite.recipe:rewrite-spring:${{ matrix.recipe_version }}") }
             afterEvaluate { if (repositories.isEmpty()) { repositories { mavenCentral() }} 
             }
           }" > rewrite-init.gradle
           cat rewrite-init.gradle
       - name: Update Spring Boot with OpenRewrite latest versions
         run: |
-          ./gradlew rewriteRun \
+          ./gradlew --console=plain --info --stacktrace --warning-mode=all --no-daemon -Dorg.gradle.jvmargs=-Xmx2g \
+            rewriteRun \
             --init-script rewrite-init.gradle \
             -Drewrite.activeRecipe=org.openrewrite.java.spring.boot3.UpgradeSpringBoot_3_3

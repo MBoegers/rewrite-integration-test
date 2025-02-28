@@ -21,7 +21,7 @@ jobs:
           ref: '2.1.x'
       - name: Update Spring Boot with OpenRewrite latest versions
         run: |
-          ./mvnw -U org.openrewrite.maven:rewrite-maven-plugin:${{ matrix.plugin_version }}:dryRun \
+          ./mvnw -U -B org.openrewrite.maven:rewrite-maven-plugin:${{ matrix.plugin_version }}:dryRun \
             -Drewrite.recipeArtifactCoordinates=org.openrewrite.recipe:rewrite-spring:${{ matrix.recipe_version }} \
             -Drewrite.activeRecipes=org.openrewrite.java.spring.boot3.UpgradeSpringBoot_3_3 \
             -Drewrite.exportDatatables=false
