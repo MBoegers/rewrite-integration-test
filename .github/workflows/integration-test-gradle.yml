@@ -1,9 +1,7 @@
 name: Gradle Plugin IT
-on:
-  workflow_call
+on: [workflow_call, workflow_dispatch]
 jobs:
   run-test:
-    name: Maven Plugin ${{ matrix.plugin_version }} / ${{ matrix.recipe_version }}
     runs-on: ubuntu-latest
     timeout-minutes: 20
     strategy:

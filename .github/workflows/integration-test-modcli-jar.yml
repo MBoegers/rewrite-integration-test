@@ -1,9 +1,7 @@
 name: Mod CLI JAR IT
-on:
-  workflow_call
+on: [workflow_call, workflow_dispatch]
 jobs:
   run-test:
-    name: Maven Plugin
     runs-on: ubuntu-latest
     timeout-minutes: 20
     strategy:
